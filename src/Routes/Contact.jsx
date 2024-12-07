@@ -1,16 +1,41 @@
-import React from 'react'
-import Form from '../Components/Form'
+import React, { useState } from "react";
 
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+const Form = () => {
+  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-const Contact = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.name.length < 5 || !formData.email.includes("@")) {
+      setError("Por favor verifique su información nuevamente");
+    } else {
+      setError("");
+      setSuccess(`Gracias ${formData.name}, te contactaremos pronto vía mail.`);
+    }
+  };
+
   return (
     <div>
-      <h2>Want to know more?</h2>
-      <p>Send us your questions and we will contact you</p>
-      <Form/>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Nombre completo"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        <button type="submit">Enviar</button>
+      </form>
+      {error && <p>{error}</p>}
+      {success && <p>{success}</p>}
     </div>
-  )
-}
+  );
+};
 
-export default Contact
+export default Form;

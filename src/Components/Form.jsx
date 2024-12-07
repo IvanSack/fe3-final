@@ -1,15 +1,28 @@
-import React from "react";
-
+import React, { useState } from "react";
 
 const Form = () => {
-  //Aqui deberan implementar el form completo con sus validaciones
+  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  return (
-    <div>
-      <form>
-      </form>
-    </div>
-  );
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-export default Form;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.name.length < 5) {
+      setError("El nombre debe tener al menos 5 caracteres");
+      setSuccess("");
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      setError("Por favor, ingresa un email válido");
+      setSuccess("");
+    } else {
+      setError("");
+      setSuccess(`Gracias ${formData.name}, te contactaremos pronto vía mail.`);
+      console.log("Formulario enviado:", formData);
+    }
+  };
+
+  return }
